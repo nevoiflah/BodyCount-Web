@@ -257,40 +257,62 @@ export default function Home() {
             <motion.h1 variants={fadeUp} className="[font-family:var(--font-playfair)] text-6xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-widest text-[var(--color-text-primary)] relative">
               <span className="relative z-10 drop-shadow-sm">COUNT</span>
               <br className="md:hidden" />
-              <span className="[font-family:var(--font-montserrat)] text-[var(--color-primary)] font-light text-2xl md:text-4xl lg:text-5xl block mt-8 z-10 relative tracking-[0.3em]">— Intimacy Journal —</span>
+              <span className="[font-family:var(--font-montserrat)] text-[var(--color-primary)] font-light text-xl md:text-4xl lg:text-5xl block mt-8 z-10 relative tracking-widest md:tracking-[0.3em] whitespace-nowrap">— Intimacy Journal —</span>
             </motion.h1>
           </motion.div>
         </section>
 
-        {/* Sticky Scroll Showcase Section */}
-        <section className="relative w-full max-w-7xl mx-auto px-6 pb-32 pt-10 flex flex-col md:flex-row items-start gap-12 lg:gap-24">
+        {/* Mobile Feature Cards (visible on small screens only) */}
+        <section className="md:hidden px-6 pb-16 flex flex-col gap-8">
+          {featuresDataList.map((feature, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col gap-4 p-6 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] backdrop-blur-sm"
+            >
+              <div className="w-12 h-12 rounded-xl bg-[var(--color-bg-default)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-primary)] shadow-md">
+                <feature.icon size={22} strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="[font-family:var(--font-playfair)] text-2xl font-bold mb-2 text-[var(--color-text-primary)]">{feature.title}</h3>
+                <p className="font-body text-[var(--color-primary)] font-semibold mb-3 text-xs tracking-widest uppercase">{feature.subtitle}</p>
+                <p className="font-body text-[var(--color-text-secondary)] text-base leading-relaxed">{feature.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </section>
 
-          {/* Left/Top: Sticky Phone Mockup */}
-          <div className="w-full md:w-1/2 md:sticky md:top-24 flex justify-center items-start z-20 mb-20 md:mb-0 transition-opacity duration-500">
+        {/* Sticky Scroll Showcase Section (desktop only) */}
+        <section className="hidden md:flex relative w-full max-w-7xl mx-auto px-6 pb-32 pt-10 flex-row items-start gap-12 lg:gap-24">
+
+          {/* Left: Sticky Phone Mockup */}
+          <div className="w-1/2 sticky top-24 flex justify-center items-start z-20 transition-opacity duration-500">
             <PhoneMockup activeIndex={activeFeature} />
-            {/* Glowing Drop Shadow beneath the phone */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-8 bg-[var(--color-primary)]/20 blur-3xl rounded-full -z-10" />
           </div>
 
-          {/* Right/Bottom: Scrolling Feature Text Blocks */}
-          <div className="w-full md:w-1/2 flex flex-col items-start pt-10 pb-[40vh]">
+          {/* Right: Scrolling Feature Text Blocks */}
+          <div className="w-1/2 flex flex-col items-start pt-10 pb-[40vh]">
             {featuresDataList.map((feature, idx) => {
               return (
                 <div
                   key={idx}
                   ref={(el) => { featureRefs.current[idx] = el; }}
-                  className="flex flex-col gap-6 items-start text-left justify-center min-h-[50vh] md:min-h-[70vh] w-full max-w-md mx-auto md:mx-0 py-16 md:py-24"
+                  className="flex flex-col gap-6 items-start text-left justify-center min-h-[70vh] w-full max-w-md py-24"
                 >
                   <div className="w-16 h-16 rounded-2xl bg-[#1C1C1E] border border-[#38383A] dark:bg-[var(--color-bg-default)] dark:border-[var(--color-border)] flex items-center justify-center text-[var(--color-primary)] shadow-lg transition-transform duration-500 ease-out"
                     style={{ transform: activeFeature === idx ? 'scale(1.1)' : 'scale(1)' }}>
                     <feature.icon size={32} strokeWidth={1.5} />
                   </div>
-                  <div className={`transition-all duration-700 ease-out ${activeFeature === idx ? 'opacity-100 translate-x-0' : 'opacity-30 md:opacity-20 translate-x-4 md:translate-x-0'}`}>
-                    <h3 className="font-heading text-4xl md:text-5xl font-bold mb-4 text-[var(--color-text-primary)] tracking-tight">{feature.title}</h3>
-                    <p className="font-subheading text-[var(--color-primary)] font-bold mb-6 text-sm md:text-base tracking-widest uppercase leading-relaxed">
+                  <div className={`transition-all duration-700 ease-out ${activeFeature === idx ? 'opacity-100 translate-x-0' : 'opacity-20 translate-x-0'}`}>
+                    <h3 className="[font-family:var(--font-playfair)] text-5xl font-bold mb-4 text-[var(--color-text-primary)] tracking-tight">{feature.title}</h3>
+                    <p className="font-body text-[var(--color-primary)] font-bold mb-6 text-sm tracking-widest uppercase leading-relaxed">
                       {feature.subtitle}
                     </p>
-                    <p className="font-body text-[var(--color-text-secondary)] text-lg md:text-xl leading-relaxed">
+                    <p className="font-body text-[var(--color-text-secondary)] text-xl leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
