@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Navigation } from '@/components/Navigation';
-import { Lock, PieChart, Info, ShieldCheck, ChevronDown, Activity, Settings2, BarChart2, Star } from 'lucide-react';
+import { Lock, PieChart, Info, ShieldCheck, ChevronDown, Activity, Settings2, BarChart2, Star, Globe, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
@@ -97,6 +97,12 @@ const featuresDataList = [
     description: "A beautifully designed Dashboard calculating stats in real-time. View your momentum, days since last encounter, and total count. Unlock \"The SCORE\"—a proprietary algorithm calculating a custom score based on the quality of your entries."
   },
   {
+    icon: Globe,
+    title: "Discreet Networking",
+    subtitle: "A private, screenshot-protected community of Journalists.",
+    description: "Opt-in to connect with partners using unique usernames. Share specific entries via Auto-Burn technology. The moment a shared entry is viewed, it is permanently deleted."
+  },
+  {
     icon: Lock,
     title: "Premium UI & Customization",
     subtitle: "Designed like a high-end fashion app, not a spreadsheet.",
@@ -168,6 +174,41 @@ function PhoneMockup({ activeIndex }: { activeIndex: number }) {
               </div>
             )}
             {activeIndex === 3 && (
+              <div className="flex flex-col w-full h-full pt-6 relative">
+                {/* Header */}
+                <div className="flex justify-between items-center px-2 mb-6 opacity-30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-[var(--color-bg-surface)] border border-[var(--color-border)]" />
+                    <div className="h-3 w-20 bg-[var(--color-bg-surface)] rounded" />
+                  </div>
+                </div>
+
+                {/* View-Once Message Modal */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] bg-[#1C1C1E] dark:bg-[var(--color-bg-surface)] rounded-2xl border border-[var(--color-primary)]/50 shadow-2xl overflow-hidden backdrop-blur-xl z-10 flex flex-col">
+                  {/* Warning Header */}
+                  <div className="bg-[#1C1C1E] dark:bg-[var(--color-bg-default)] py-3 flex items-center justify-center gap-2 border-b border-[var(--color-border)]">
+                    <EyeOff className="w-4 h-4 text-[#FF3B30] animate-pulse" />
+                    <span className="text-[10px] font-bold text-[#FF3B30] uppercase tracking-widest">Screenshot Blocked</span>
+                  </div>
+
+                  {/* Content Area (Blurred out for effect) */}
+                  <div className="p-6 flex flex-col gap-4 items-center">
+                    <div className="w-20 h-20 rounded-full bg-[var(--color-bg-surface)] border-2 border-[var(--color-border)] blur-[2px]" />
+                    <div className="h-4 w-3/4 bg-[var(--color-text-secondary)]/20 rounded blur-[1px]" />
+                    <div className="h-3 w-1/2 bg-[var(--color-text-secondary)]/20 rounded blur-[1px]" />
+
+                    {/* Burn Countdown/Label */}
+                    <div className="mt-4 px-4 py-2 rounded-full border border-[#FF3B30]/30 bg-[#FF3B30]/10 flex items-center justify-center">
+                      <span className="text-[10px] uppercase font-bold text-[#FF3B30] tracking-widest">Auto-Burn</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Overlay dimming effect */}
+                <div className="absolute inset-0 bg-black/40 z-0 rounded-[2rem]" />
+              </div>
+            )}
+            {activeIndex === 4 && (
               <div className="flex flex-col w-full h-full gap-4 pt-10">
                 <div className="flex justify-between items-center px-2 mb-2">
                   <h4 className="font-heading font-bold text-lg text-[var(--color-text-primary)]">Settings</h4>
