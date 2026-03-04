@@ -80,14 +80,25 @@ export default function TermsOfService() {
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">4. Intellectual Property</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">4. Community Guidelines & User-Generated Content</h2>
+                        <p>
+                            The COUNT Community feature facilitates the secure transfer of private information between consenting users. By utilizing this feature, you agree to the following strict conditions:
+                        </p>
+                        <ol className="list-decimal pl-6 space-y-2 mb-6">
+                            <li><strong>Acceptable Use:</strong> You agree not to use the Service to transmit harassing, abusive, illegal, or non-consensual explicit content. You must have explicit consent from all parties involved before documenting or sharing any interactive details.</li>
+                            <li><strong>Zero Liability for Leaks (The "Limits of Technology" Clause):</strong> While COUNT employs native Operating System technology attempting to block screenshots and screen recordings of "View-Once" entries, no technology is infallible. A recipient may bypass these restrictions by using a secondary device (e.g., photographing their screen). YOU ASSUME ALL RISK associated with sharing your personal data. The Company, the Developer, and our affiliates are strictly indemnified and hold absolutely zero liability if your shared content is captured, leaked, or distributed by a recipient.</li>
+                        </ol>
+                    </motion.div>
+
+                    <motion.div variants={fadeUp}>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">5. Intellectual Property</h2>
                         <p>
                             The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of COUNT and its licensors.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">5. Links To Other Web Sites</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">6. Links To Other Web Sites</h2>
                         <p>
                             Our Service may contain links to third-party web sites or services that are not owned or controlled by COUNT.
                         </p>
@@ -97,42 +108,42 @@ export default function TermsOfService() {
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">6. Termination</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">7. Termination</h2>
                         <p>
-                            We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.
+                            We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms, or if we receive credible reports that you are utilizing the Community feature for harassment, spam, or distributing non-consensual content.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">7. Limitation of Liability</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">8. Limitation of Liability</h2>
                         <p>
                             In no event shall COUNT, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">8. Disclaimer</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">9. Disclaimer</h2>
                         <p>
                             Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">9. Governing Law</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">10. Governing Law</h2>
                         <p>
                             These Terms shall be governed and construed in accordance with the laws of <strong>Israel</strong>, without regard to its conflict of law provisions.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">10. Changes</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">11. Changes</h2>
                         <p>
                             We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect.
                         </p>
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">11. Contact Us</h2>
+                        <h2 className="text-2xl font-bold mt-12 mb-6">12. Contact Us</h2>
                         <p>If you have any questions about these Terms, please contact us:</p>
                         <ul className="list-disc pl-6 mb-12">
                             <li>By email: <strong>nevo.iflah6@icloud.com</strong></li>

@@ -115,10 +115,21 @@ export default function PrivacyPolicy() {
                     </motion.div>
 
                     <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Retention & Transfer</h3>
+                        <h3 className="text-xl font-bold mt-8 mb-4">Retention of Your Personal Data</h3>
                         <p>
                             The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations, resolve disputes, and enforce our legal agreements and policies.
                         </p>
+                    </motion.div>
+
+                    <motion.div variants={fadeUp}>
+                        <h3 className="text-xl font-bold mt-8 mb-4">Data Sharing via the Community Feature (Opt-In)</h3>
+                        <p>
+                            If You explicitly opt-in to the COUNT "Community" feature, You acknowledge and consent to the transmission of your selected journal entries to other users ("Journalists") that You have approved. When You share an entry via the "View-Once" mechanism, the encrypted payload is temporarily stored on our servers solely for the purpose of delivery. Upon the recipient viewing and subsequently closing the entry, the data is permanently and irrevocably deleted ("burned") from our active database. We do not retain archives, caches, or logs of burned entries. We cannot control what a recipient does with the information once it is delivered to their device.
+                        </p>
+                    </motion.div>
+
+                    <motion.div variants={fadeUp}>
+                        <h3 className="text-xl font-bold mt-8 mb-4">Transfer of Your Personal Data</h3>
                         <p>
                             Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ from those from Your jurisdiction.
                         </p>
