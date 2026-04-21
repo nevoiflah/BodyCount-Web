@@ -1,205 +1,287 @@
-'use client';
-
 import { Navigation } from '@/components/Navigation';
-import { motion, Variants } from 'framer-motion';
-import Link from 'next/link';
 
-const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-};
-
-const staggerContainer: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
-    }
-};
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="space-y-4">
+      <h2 className="font-heading text-2xl font-bold text-[var(--color-text-primary)] md:text-3xl">
+        {title}
+      </h2>
+      <div className="space-y-4 font-body text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg">
+        {children}
+      </div>
+    </section>
+  );
+}
 
 export default function PrivacyPolicy() {
-    return (
-        <>
-            <Navigation />
-            <main className="min-h-screen pt-32 pb-24 px-6 overflow-hidden">
-                <motion.article
-                    className="max-w-4xl mx-auto prose prose-neutral dark:prose-invert prose-headings:font-heading prose-p:font-body prose-li:font-body prose-strong:text-[var(--color-primary)]"
-                    initial="hidden"
-                    animate="visible"
-                    variants={staggerContainer}
+  return (
+    <>
+      <Navigation />
+      <main className="px-6 pt-32 pb-24">
+        <article className="mx-auto flex max-w-4xl flex-col gap-10 rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-8 shadow-xl backdrop-blur-xl md:p-12">
+          <header className="border-b border-[var(--color-border)] pb-8">
+            <p className="font-body text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-primary)]">
+              Legal
+            </p>
+            <h1 className="mt-4 font-heading text-4xl font-bold text-[var(--color-text-primary)] md:text-5xl">
+              Privacy Policy
+            </h1>
+            <p className="mt-4 font-subheading italic text-[var(--color-text-secondary)]">
+              Last updated: February 16, 2026
+            </p>
+          </header>
+
+          <div className="space-y-4 font-body text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg">
+            <p>
+              This Privacy Policy describes Our policies and procedures on the collection, use and
+              disclosure of Your information when You use the Service and tells You about Your
+              privacy rights and how the law protects You.
+            </p>
+            <p>
+              We use Your Personal Data to provide and improve the Service. By using the Service,
+              You agree to the collection and use of information in accordance with this Privacy
+              Policy.
+            </p>
+          </div>
+
+          <Section title="Interpretation and Definitions">
+            <h3 className="font-heading text-xl font-bold text-[var(--color-text-primary)]">
+              Interpretation
+            </h3>
+            <p>
+              The words whose initial letters are capitalized have meanings defined under the
+              following conditions. The following definitions shall have the same meaning regardless
+              of whether they appear in singular or in plural.
+            </p>
+            <h3 className="pt-2 font-heading text-xl font-bold text-[var(--color-text-primary)]">
+              Definitions
+            </h3>
+            <p>For the purposes of this Privacy Policy:</p>
+            <ul className="list-disc space-y-2 pl-6">
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Account</strong> means a
+                unique account created for You to access our Service or parts of our Service.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Application</strong> refers
+                to COUNT, the software program provided by the Company.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Company</strong> means COUNT.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Country</strong> refers to
+                Israel.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Device</strong> means any
+                device that can access the Service such as a computer, a cell phone or a digital
+                tablet.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Personal Data</strong> is any
+                information that relates to an identified or identifiable individual.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Service</strong> refers to the
+                Application.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Usage Data</strong> refers to
+                data collected automatically, either generated by the use of the Service or from the
+                Service infrastructure itself.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">You</strong> means the
+                individual accessing or using the Service, or the company, or other legal entity on
+                behalf of which such individual is accessing or using the Service.
+              </li>
+            </ul>
+          </Section>
+
+          <Section title="Collecting and Using Your Personal Data">
+            <h3 className="font-heading text-xl font-bold text-[var(--color-text-primary)]">
+              Types of Data Collected
+            </h3>
+            <h4 className="pt-2 font-heading text-lg font-bold text-[var(--color-text-primary)]">
+              Personal Data
+            </h4>
+            <p>
+              While using Our Service, We may ask You to provide Us with certain personally
+              identifiable information that can be used to contact or identify You. This may include
+              your email address, first name and last name, and usage data.
+            </p>
+            <h4 className="pt-2 font-heading text-lg font-bold text-[var(--color-text-primary)]">
+              Usage Data
+            </h4>
+            <p>
+              Usage Data is collected automatically when using the Service. It may include
+              information such as Your device&apos;s IP address, browser type, browser version, the
+              pages of our Service that You visit, the time and date of Your visit, the time spent
+              on those pages, unique device identifiers, and other diagnostic data.
+            </p>
+            <h4 className="pt-2 font-heading text-lg font-bold text-[var(--color-text-primary)]">
+              Information Collected While Using the Application
+            </h4>
+            <p>In order to provide features of Our Application, We may collect:</p>
+            <ul className="list-disc space-y-2 pl-6">
+              <li>
+                <strong className="text-[var(--color-text-primary)]">
+                  Intimate Encounter Data:
+                </strong>{' '}
+                details about sexual encounters you log, including dates, ratings, and physical
+                attributes. This data is private and encrypted as part of our security model.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Security Logs:</strong> events
+                related to account security such as login attempts and biometrics status.
+              </li>
+            </ul>
+            <p>
+              This information is used solely to provide the core functionality of COUNT. The data
+              is stored securely and is not shared with third parties for marketing purposes.
+            </p>
+          </Section>
+
+          <Section title="Use of Your Personal Data">
+            <p>The Company may use Personal Data for the following purposes:</p>
+            <ul className="list-disc space-y-2 pl-6">
+              <li>To provide and maintain our Service, including to monitor usage of the Service.</li>
+              <li>To manage Your Account and registration as a user of the Service.</li>
+              <li>
+                To perform contractual obligations related to products, items, or services You have
+                purchased.
+              </li>
+              <li>
+                To contact You by email, phone, SMS, or other equivalent forms of electronic
+                communication.
+              </li>
+              <li>
+                To provide You with news, special offers, and general information about related
+                goods, services, and events.
+              </li>
+              <li>To manage Your requests and support inquiries.</li>
+            </ul>
+          </Section>
+
+          <Section title="Retention of Your Personal Data">
+            <p>
+              The Company will retain Your Personal Data only for as long as necessary for the
+              purposes set out in this Privacy Policy, including compliance with legal obligations,
+              resolving disputes, and enforcing legal agreements and policies.
+            </p>
+          </Section>
+
+          <Section title="Data Sharing via the Community Feature (Opt-In)">
+            <p>
+              If You explicitly opt in to the COUNT community feature, You acknowledge and consent
+              to the transmission of your selected journal entries to other approved users. When You
+              share an entry through a view-once mechanism, the encrypted payload is stored only as
+              long as needed for delivery and is deleted after viewing according to the feature
+              design.
+            </p>
+            <p>
+              We do not control what a recipient does once information is displayed on their device.
+            </p>
+          </Section>
+
+          <Section title="Transfer of Your Personal Data">
+            <p>
+              Your information may be processed at the Company&apos;s operating offices and in other
+              places where parties involved in the processing are located. This may include transfers
+              to jurisdictions with different data protection laws.
+            </p>
+          </Section>
+
+          <Section title="Delete Your Personal Data">
+            <p>
+              You have the right to delete or request assistance in deleting the Personal Data that
+              We have collected about You. Our Service may allow You to delete certain information
+              from within the app itself or through account settings.
+            </p>
+          </Section>
+
+          <Section title="Disclosure and Security">
+            <ul className="list-disc space-y-2 pl-6">
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Business Transactions:</strong>{' '}
+                If the Company is involved in a merger, acquisition, or asset sale, Personal Data
+                may be transferred.
+              </li>
+              <li>
+                <strong className="text-[var(--color-text-primary)]">Law Enforcement:</strong>{' '}
+                Personal Data may be disclosed where required by law or valid legal process.
+              </li>
+            </ul>
+            <p>
+              While We use commercially reasonable means to protect Personal Data, no method of
+              transmission over the Internet or electronic storage is completely secure.
+            </p>
+          </Section>
+
+          <Section title="Children&#39;s Privacy and Other Websites">
+            <p>
+              Our Service does not address anyone under the age of 18. We do not knowingly collect
+              personally identifiable information from anyone under 18.
+            </p>
+            <p>
+              Our Service may contain links to third-party websites. We strongly advise You to
+              review the privacy policy of every site You visit.
+            </p>
+          </Section>
+
+          <Section title="Changes to this Privacy Policy">
+            <p>
+              We may update this Privacy Policy from time to time. Any changes will be posted on
+              this page.
+            </p>
+          </Section>
+
+          <Section title="Contact Us">
+            <p>If you have any questions about this Privacy Policy, you can contact us:</p>
+            <ul className="list-disc pl-6">
+              <li>
+                By email:{' '}
+                <a
+                  href="mailto:nevo.iflah6@icloud.com"
+                  className="text-[var(--color-primary)] transition-colors hover:opacity-80"
                 >
-                    <motion.div variants={fadeUp}>
-                        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
-                        <p className="font-subheading text-[var(--color-text-secondary)] italic mb-12">
-                            Last updated: February 16, 2026
-                        </p>
-                    </motion.div>
+                  nevo.iflah6@icloud.com
+                </a>
+              </li>
+            </ul>
+          </Section>
+        </article>
+      </main>
 
-                    <motion.div variants={fadeUp}>
-                        <p>
-                            This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
-                        </p>
-                        <p>
-                            We use Your Personal Data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy.
-                        </p>
-                    </motion.div>
+      <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-default)] px-6 py-12">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
+          <div className="flex flex-wrap justify-center gap-8 font-body text-sm text-[var(--color-text-secondary)]">
+            <a href="/privacy-policy" className="text-[var(--color-primary)] transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/terms-of-service" className="transition-colors hover:text-[var(--color-primary)]">
+              Terms of Service
+            </a>
+            <a
+              href="mailto:support@countintimacyjournal.com"
+              className="transition-colors hover:text-[var(--color-primary)]"
+            >
+              Support
+            </a>
+          </div>
 
-                    <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">Interpretation and Definitions</h2>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Interpretation</h3>
-                        <p>
-                            The words whose initial letters are capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
-                        </p>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Definitions</h3>
-                        <p>For the purposes of this Privacy Policy:</p>
-                        <ul className="list-disc pl-6 space-y-2 mb-8">
-                            <li><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</li>
-                            <li><strong>Application</strong> refers to COUNT, the software program provided by the Company.</li>
-                            <li><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Privacy Policy) refers to COUNT.</li>
-                            <li><strong>Country</strong> refers to: Israel.</li>
-                            <li><strong>Device</strong> means any device that can access the Service such as a computer, a cell phone or a digital tablet.</li>
-                            <li><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual.</li>
-                            <li><strong>Service</strong> refers to the Application.</li>
-                            <li><strong>Usage Data</strong> refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).</li>
-                            <li><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
-                        </ul>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">Collecting and Using Your Personal Data</h2>
-
-                        <h3 className="text-xl font-bold mt-8 mb-4">Types of Data Collected</h3>
-
-                        <h4 className="text-lg font-bold mt-6 mb-3">Personal Data</h4>
-                        <p>
-                            While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:
-                        </p>
-                        <ul className="list-disc pl-6 space-y-2 mb-6">
-                            <li>Email address</li>
-                            <li>First name and last name</li>
-                            <li>Usage Data</li>
-                        </ul>
-
-                        <h4 className="text-lg font-bold mt-6 mb-3">Usage Data</h4>
-                        <p>
-                            Usage Data is collected automatically when using the Service.
-                            Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.
-                        </p>
-
-                        <h4 className="text-lg font-bold mt-6 mb-3">Information Collected while Using the Application</h4>
-                        <p>
-                            While using Our Application, in order to provide features of Our Application, We may collect:
-                        </p>
-                        <ul className="list-disc pl-6 space-y-2 mb-6">
-                            <li><strong>Intimate Encounter Data:</strong> Details about sexual encounters you log, including dates, ratings, and physical attributes. This data is private and encrypted as per our security protocols.</li>
-                            <li><strong>Security Logs:</strong> Events related to account security (e.g., login attempts, biometrics status).</li>
-                        </ul>
-                        <p>
-                            This information is used solely to provide the core functionality of COUNT. The data is stored securely via Firebase and is not shared with third parties for marketing or other commercial purposes.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Use of Your Personal Data</h3>
-                        <p>The Company may use Personal Data for the following purposes:</p>
-                        <ul className="list-disc pl-6 space-y-2 mb-8">
-                            <li><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</li>
-                            <li><strong>To manage Your Account:</strong> to manage Your registration as a user of the Service.</li>
-                            <li><strong>For the performance of a contract:</strong> the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased.</li>
-                            <li><strong>To contact You:</strong> To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication.</li>
-                            <li><strong>To provide You</strong> with news, special offers, and general information about other goods, services and events.</li>
-                            <li><strong>To manage Your requests:</strong> To attend and manage Your requests to Us.</li>
-                        </ul>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Retention of Your Personal Data</h3>
-                        <p>
-                            The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations, resolve disputes, and enforce our legal agreements and policies.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Data Sharing via the Community Feature (Opt-In)</h3>
-                        <p>
-                            If You explicitly opt-in to the COUNT "Community" feature, You acknowledge and consent to the transmission of your selected journal entries to other users ("Journalists") that You have approved. When You share an entry via the "View-Once" mechanism, the encrypted payload is temporarily stored on our servers solely for the purpose of delivery. Upon the recipient viewing and subsequently closing the entry, the data is permanently and irrevocably deleted ("burned") from our active database. We do not retain archives, caches, or logs of burned entries. We cannot control what a recipient does with the information once it is delivered to their device.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Transfer of Your Personal Data</h3>
-                        <p>
-                            Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ from those from Your jurisdiction.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Delete Your Personal Data</h3>
-                        <p>
-                            You have the right to delete or request that We assist in deleting the Personal Data that We have collected about You.<br />
-                            Our Service may give You the ability to delete certain information about You from within the Service.<br />
-                            You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one, and visiting the account settings section that allows you to manage Your personal information.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h3 className="text-xl font-bold mt-8 mb-4">Disclosure & Security</h3>
-                        <ul className="list-disc pl-6 space-y-2 mb-8">
-                            <li><strong>Business Transactions:</strong> If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred.</li>
-                            <li><strong>Law enforcement:</strong> Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law.</li>
-                        </ul>
-                        <p>
-                            The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially reasonable means to protect Your Personal Data, We cannot guarantee its absolute security.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp}>
-                        <h2 className="text-2xl font-bold mt-12 mb-6">Children's Privacy & Other Websites</h2>
-                        <p>
-                            Our Service does not address anyone under the age of 18. We do not knowingly collect personally identifiable information from anyone under the age of 18. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us.
-                        </p>
-                        <p>
-                            Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
-                        </p>
-
-                        <h2 className="text-2xl font-bold mt-12 mb-6">Changes to this Privacy Policy</h2>
-                        <p>
-                            We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.
-                        </p>
-
-                        <h2 className="text-2xl font-bold mt-12 mb-6">Contact Us</h2>
-                        <p>If you have any questions about this Privacy Policy, You can contact us:</p>
-                        <ul className="list-disc pl-6 mb-12">
-                            <li>By email: <strong>nevo.iflah6@icloud.com</strong></li>
-                        </ul>
-                    </motion.div>
-                </motion.article>
-            </main>
-
-            {/* Footer */}
-            <footer className="py-12 px-6 bg-[var(--color-bg-default)] border-t border-[var(--color-border)]">
-                <motion.div
-                    className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: false, amount: 0.1 }}
-                    variants={staggerContainer}
-                >
-
-
-                    <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-8 font-body text-sm text-[var(--color-text-secondary)]">
-                        <Link href="/privacy-policy" className="text-[var(--color-primary)] transition-colors">Privacy Policy</Link>
-                        <Link href="/terms-of-service" className="hover:text-[var(--color-primary)] transition-colors">Terms of Service</Link>
-                        <a href="mailto:support@countintimacyjournal.com" className="hover:text-[var(--color-primary)] transition-colors">Support</a>
-                    </motion.div>
-
-                    <motion.div variants={fadeUp} className="font-subheading text-sm text-[var(--color-text-secondary)]">
-                        &copy; {new Date().getFullYear()} COUNT. All rights reserved.
-                    </motion.div>
-                </motion.div>
-            </footer>
-        </>
-    );
+          <div className="font-subheading text-sm text-[var(--color-text-secondary)]">
+            &copy; {new Date().getFullYear()} COUNT. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </>
+  );
 }

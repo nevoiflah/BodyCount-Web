@@ -24,6 +24,8 @@
   --text-secondary: #6B665F;
   --primary: #8B8276;
   --secondary-accent: #C4BCB1;
+  --hero-glow: rgba(139, 130, 118, 0.24);
+  --hero-glow-soft: rgba(196, 188, 177, 0.2);
 
   --background: var(--bg-default);
   --foreground: var(--text-primary);
@@ -38,13 +40,35 @@
   --text-secondary: #95A5A6;
   --primary: #AAB7B8;
   --secondary-accent: #708090;
+  --hero-glow: rgba(170, 183, 184, 0.22);
+  --hero-glow-soft: rgba(112, 128, 144, 0.18);
 
   --background: var(--bg-default);
   --foreground: var(--text-primary);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+}
+
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at top, var(--hero-glow) 0%, transparent 30%),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.04) 100%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--bg-default);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
