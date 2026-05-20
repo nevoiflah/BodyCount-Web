@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Star,
 } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useInView, Variants } from 'framer-motion';
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
@@ -34,7 +34,7 @@ const staggerContainer: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.08,
     },
   },
 };
@@ -43,13 +43,11 @@ const featureCopyMotion: Variants = {
   active: {
     opacity: 1,
     x: 0,
-    filter: 'blur(0px)',
     transition: { duration: 0.55, ease: smoothEase },
   },
   inactive: {
     opacity: 0.38,
     x: 20,
-    filter: 'blur(4px)',
     transition: { duration: 0.4, ease: smoothEase },
   },
 };
@@ -230,32 +228,17 @@ function PhoneMockup({
                   initial={
                     shouldReduceMotion
                       ? { opacity: 0 }
-                      : {
-                          opacity: 0,
-                          y: direction >= 0 ? 24 : -24,
-                          scale: 0.96,
-                          filter: 'blur(14px)',
-                        }
+                      : { opacity: 0, y: direction >= 0 ? 24 : -24, scale: 0.96 }
                   }
                   animate={
                     shouldReduceMotion
                       ? { opacity: 1 }
-                      : {
-                          opacity: 1,
-                          y: 0,
-                          scale: 1,
-                          filter: 'blur(0px)',
-                        }
+                      : { opacity: 1, y: 0, scale: 1 }
                   }
                   exit={
                     shouldReduceMotion
                       ? { opacity: 0 }
-                      : {
-                          opacity: 0,
-                          y: direction >= 0 ? -18 : 18,
-                          scale: 1.02,
-                          filter: 'blur(10px)',
-                        }
+                      : { opacity: 0, y: direction >= 0 ? -18 : 18, scale: 1.02 }
                   }
                   transition={screenTransition}
                   className="absolute inset-0 flex h-full flex-col px-5 pb-8 pt-16"
@@ -454,6 +437,8 @@ export default function Home() {
   const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const activeFeatureRef = useRef(0);
   const shouldReduceMotion = useReducedMotion() ?? false;
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroSectionRef, { amount: 0.1 });
 
   const scrollToSection = (sectionId: string, offset: number, hash = sectionId) => {
     const section = document.getElementById(sectionId);
@@ -528,12 +513,12 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen overflow-x-clip pt-[4.5rem] md:pt-20">
-        <section className="relative flex min-h-[calc(100svh-4.5rem)] flex-col items-center justify-center overflow-hidden px-6 py-14 text-center md:min-h-[calc(100svh-5rem)] md:py-16 lg:py-20">
+      <main id="main-content" className="min-h-screen overflow-x-clip pt-[4.5rem] md:pt-20">
+        <section ref={heroSectionRef} className="relative flex min-h-[calc(100svh-4.5rem)] flex-col items-center justify-center overflow-hidden px-6 py-14 text-center md:min-h-[calc(100svh-5rem)] md:py-16 lg:py-20">
           <div className="pointer-events-none absolute inset-0">
             <motion.div
               animate={
-                shouldReduceMotion
+                shouldReduceMotion || !heroInView
                   ? undefined
                   : { y: [0, -20, 0], x: [0, 18, 0], opacity: [0.45, 0.7, 0.45] }
               }
@@ -547,7 +532,7 @@ export default function Home() {
             />
             <motion.div
               animate={
-                shouldReduceMotion
+                shouldReduceMotion || !heroInView
                   ? undefined
                   : { y: [0, 18, 0], x: [0, -14, 0], opacity: [0.25, 0.55, 0.25] }
               }
@@ -565,7 +550,7 @@ export default function Home() {
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10 max-w-5xl">
             <motion.span
               variants={fadeUp}
-              className="mb-5 inline-flex rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2 font-body text-[10px] font-semibold uppercase tracking-[0.32em] text-[var(--color-primary)] backdrop-blur-xl md:mb-6"
+              className="mb-5 inline-flex rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2 font-body text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-primary)] backdrop-blur-xl md:mb-6"
             >
               Private by design
             </motion.span>
@@ -644,7 +629,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          <div className="flex flex-col gap-8 px-6 pb-16 md:hidden">
+          <div className="flex flex-col gap-8 px-6 pb-16 lg:hidden">
             {featuresDataList.map((feature, idx) => (
               <motion.div
                 key={idx}
@@ -659,7 +644,7 @@ export default function Home() {
                   <feature.icon size={22} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <span className="font-body text-[10px] font-bold uppercase tracking-[0.32em] text-[var(--color-primary)]">
+                  <span className="font-body text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-primary)]">
                     0{idx + 1}
                   </span>
                   <h3 className="[font-family:var(--font-playfair)] mt-3 text-2xl font-bold text-[var(--color-text-primary)]">
@@ -676,7 +661,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="relative mx-auto hidden w-full max-w-7xl flex-row items-start gap-12 px-6 pb-32 pt-14 md:flex lg:gap-24">
+          <div className="relative mx-auto hidden w-full max-w-7xl flex-row items-start gap-12 px-6 pb-32 pt-14 lg:flex lg:gap-24">
             <div className="sticky top-[5.5rem] z-20 flex w-1/2 items-start justify-center">
               <PhoneMockup
                 activeIndex={activeFeature}
@@ -716,7 +701,7 @@ export default function Home() {
                       </motion.div>
 
                       <motion.div animate={isActive ? 'active' : 'inactive'} variants={featureCopyMotion}>
-                        <span className="font-body text-[10px] font-bold uppercase tracking-[0.34em] text-[var(--color-primary)]">
+                        <span className="font-body text-xs font-bold uppercase tracking-[0.3em] text-[var(--color-primary)]">
                           0{idx + 1}
                         </span>
                         <h3 className="[font-family:var(--font-playfair)] mt-4 text-5xl font-bold tracking-tight text-[var(--color-text-primary)]">
@@ -741,7 +726,7 @@ export default function Home() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
             className="flex flex-col gap-12"
           >
