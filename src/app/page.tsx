@@ -84,7 +84,7 @@ const faqData = [
   {
     question: 'Where is my data actually stored?',
     answer:
-      'Locally on your device and securely encrypted on the cloud. We never see your entries, and we cannot access your blackbook. Period.',
+      'Locally on your device and securely encrypted on the cloud. We never see your entries, and we cannot access your journal. Period.',
   },
   {
     question: 'Is COUNT really free?',
@@ -157,16 +157,16 @@ const featuresDataList = [
   {
     icon: Info,
     title: 'The Deep Details',
-    subtitle: "Don't just remember who, remember everything.",
+    subtitle: 'Your experiences, captured in full.',
     description:
-      'Log every encounter with precision. Track dates, names, durations, and origin stories. Rate physical attributes and nuanced performance dynamics.',
+      'Record every personal experience in depth. Capture dates, names, how you met, and the details that made each connection unique. Reflect on what each experience meant to you, with nuanced personal ratings.',
   },
   {
     icon: PieChart,
     title: 'Advanced Analytics',
     subtitle: 'Your history, elegantly visualized.',
     description:
-      'A beautifully designed Dashboard calculating stats in real-time. View your momentum, days since last encounter, and total count. Unlock "The SCORE" - a proprietary algorithm calculating a custom score based on the quality of your entries.',
+      'A beautifully designed dashboard that brings your journal to life with real-time insights. Track your personal momentum, review your timeline, and unlock The SCORE — a proprietary reflection metric based on the depth and quality of your entries.',
   },
   {
     icon: Globe,
@@ -180,7 +180,7 @@ const featuresDataList = [
     title: 'Premium UI & Customization',
     subtitle: 'Designed like a high-end fashion app, not a spreadsheet.',
     description:
-      'Refined aesthetics that adapt flawlessly to Light and Dark Modes. Utilize custom sorting modules to navigate your blackbook by score, rating, newest, or oldest entry.',
+      'Refined aesthetics that adapt flawlessly to Light and Dark Modes. Sort and navigate your journal by score, rating, newest, or oldest — your personal history, beautifully organized.',
   },
 ];
 
@@ -567,7 +567,7 @@ export default function Home() {
               variants={fadeUp}
               className="mx-auto mt-6 max-w-2xl font-body text-lg leading-relaxed text-[var(--color-text-secondary)] md:mt-8 md:text-xl"
             >
-              A discreet intimacy journal for adults who want privacy, precision, and a cleaner way to remember everything that matters.
+              Your private space to reflect on your dating life. Record personal experiences, recognize your patterns, and hold on to every connection that mattered.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center justify-center gap-4 md:mt-10 sm:flex-row">
               <motion.a
@@ -722,6 +722,80 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="privacy" className="mx-auto max-w-5xl scroll-mt-40 px-6 py-24 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+            className="flex flex-col gap-12"
+          >
+            <div className="text-center">
+              <motion.span
+                variants={fadeUp}
+                className="mb-5 inline-flex rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-2 font-body text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-primary)] backdrop-blur-xl"
+              >
+                Privacy First
+              </motion.span>
+              <motion.h2 variants={fadeUp} className="mt-5 font-heading text-4xl font-bold tracking-tight md:text-5xl">
+                Your journal is yours alone.
+              </motion.h2>
+              <motion.p
+                variants={fadeUp}
+                className="mx-auto mt-4 max-w-lg font-body text-lg text-[var(--color-text-secondary)]"
+              >
+                Everything you write stays between you and your journal. No exceptions.
+              </motion.p>
+            </div>
+
+            <motion.div
+              variants={staggerContainer}
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            >
+              {[
+                {
+                  icon: Lock,
+                  title: 'Stored in your account only',
+                  body: 'Your entries are encrypted and belong exclusively to your private account. We have no access to your content.',
+                },
+                {
+                  icon: ShieldCheck,
+                  title: 'Never shared without you',
+                  body: 'Your data is never sold or disclosed. Community sharing is always opt-in, explicitly initiated by you.',
+                },
+                {
+                  icon: EyeOff,
+                  title: 'Biometric protection',
+                  body: 'The app locks the moment you leave it. Only your biometrics can reopen your journal.',
+                },
+                {
+                  icon: Activity,
+                  title: 'Public Mode ready',
+                  body: 'One tap blurs all sensitive content if someone glances at your screen. Your privacy, on demand.',
+                },
+              ].map((pillar, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  className="flex flex-col gap-4 rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-6 backdrop-blur-sm"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-default)] text-[var(--color-primary)] shadow-md">
+                    <pillar.icon size={22} strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-lg font-bold text-[var(--color-text-primary)]">
+                      {pillar.title}
+                    </h3>
+                    <p className="mt-2 font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      {pillar.body}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </section>
+
         <section id="faq" className="mx-auto max-w-4xl scroll-mt-40 px-6 py-24 md:px-12">
           <motion.div
             initial="hidden"
@@ -766,16 +840,16 @@ export default function Home() {
               variants={fadeUp}
               className="font-heading text-5xl font-bold leading-tight tracking-tight md:text-6xl lg:text-7xl"
             >
-              Their history matters.
+              Your experiences are worth remembering.
               <br />
-              <span className="text-[var(--color-primary)]">But so does yours.</span>
+              <span className="text-[var(--color-primary)]">Every detail, privately yours.</span>
             </motion.h2>
 
             <motion.p
               variants={fadeUp}
               className="max-w-2xl font-body text-xl leading-relaxed text-[var(--color-text-secondary)] md:text-2xl"
             >
-              A discreet intimacy journal designed for the modern adult. Secure, elegant, and entirely yours.
+              A private journal designed for your dating life. Honest, personal, and entirely yours.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex w-full justify-center pt-6">

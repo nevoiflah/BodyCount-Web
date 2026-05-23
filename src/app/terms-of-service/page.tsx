@@ -81,7 +81,7 @@ export default function TermsOfService() {
               legality, reliability, and appropriateness of that content.
             </p>
             <p>
-              We understand the sensitive nature of intimate journal data. While we take security
+              We understand the sensitive nature of personal journal data. While we take security
               measures, including local protections and authentication controls, you acknowledge that
               you enter and manage this data at your own risk.
             </p>

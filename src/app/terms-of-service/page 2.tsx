@@ -75,7 +75,7 @@ export default function TermsOfService() {
                             Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the Service, including its legality, reliability, and appropriateness.
                         </p>
                         <p>
-                            <strong>Private Journal Nature:</strong> We understand the sensitive nature of the data (intimate encounters). While we take security measures (including local encryption and auth protections), you acknowledge that <strong>you enter this data at your own risk</strong>. We are not liable for any personal embarrassment, reputational damage, or other consequences that may arise if your device is compromised or if you voluntarily share your data.
+                            <strong>Private Journal Nature:</strong> We understand the sensitive nature of personal journal data. While we take security measures (including local encryption and auth protections), you acknowledge that <strong>you enter this data at your own risk</strong>. We are not liable for any personal embarrassment, reputational damage, or other consequences that may arise if your device is compromised or if you voluntarily share your data.
                         </p>
                     </motion.div>
 

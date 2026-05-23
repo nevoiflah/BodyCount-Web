@@ -133,10 +133,10 @@ export default function PrivacyPolicy() {
             <ul className="list-disc space-y-2 pl-6">
               <li>
                 <strong className="text-[var(--color-text-primary)]">
-                  Intimate Encounter Data:
+                  Personal Experience Data:
                 </strong>{' '}
-                details about sexual encounters you log, including dates, ratings, and physical
-                attributes. This data is private and encrypted as part of our security model.
+                details about personal experiences you record in your journal, including dates, notes,
+                and personal reflections. This data is private and encrypted as part of our security model.
               </li>
               <li>
                 <strong className="text-[var(--color-text-primary)]">Security Logs:</strong> events

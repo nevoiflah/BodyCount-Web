@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
                             While using Our Application, in order to provide features of Our Application, We may collect:
                         </p>
                         <ul className="list-disc pl-6 space-y-2 mb-6">
-                            <li><strong>Intimate Encounter Data:</strong> Details about sexual encounters you log, including dates, ratings, and physical attributes. This data is private and encrypted as per our security protocols.</li>
+                            <li><strong>Personal Experience Data:</strong> Details about personal experiences you record in your journal, including dates, notes, and personal reflections. This data is private and encrypted as per our security protocols.</li>
                             <li><strong>Security Logs:</strong> Events related to account security (e.g., login attempts, biometrics status).</li>
                         </ul>
                         <p>

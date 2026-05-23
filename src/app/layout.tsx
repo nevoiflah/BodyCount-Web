@@ -23,10 +23,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'COUNT | Intimacy Journal',
-  description: 'Their history matters. But so does yours. A highly detailed, discreet intimacy journal protected by bank-level security.',
+  description: 'Your private space to reflect on your dating life. A personal journal with biometric protection and bank-level security.',
   openGraph: {
     title: 'COUNT | Intimacy Journal',
-    description: 'A premium, strictly private intimacy journal. Remember everything with absolute discretion.',
+    description: 'A beautifully designed private journal for your dating life. Reflect, remember, and understand your personal experiences.',
     url: 'https://countintimacyjournal.com',
     siteName: 'COUNT',
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'COUNT | Intimacy Journal',
-    description: 'Their history matters. But so does yours. A highly detailed, discreet intimacy journal protected by bank-level security.',
+    description: 'Your private space to reflect on your dating life. A personal journal with biometric protection and bank-level security.',
     images: ['/journal-icon.png'],
   },
 };
