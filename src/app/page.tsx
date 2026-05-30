@@ -5,7 +5,6 @@ import { Navigation } from '@/components/Navigation';
 import {
   Activity,
   ArrowRight,
-  BarChart2,
   ChevronDown,
   EyeOff,
   Globe,
@@ -274,11 +273,11 @@ function PhoneMockup({
                             Entry
                           </p>
                           <p className="mt-2 text-sm font-semibold text-[var(--color-text-primary)]">
-                            Saturday night
+                            Emma
                           </p>
                         </div>
                         <div className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                          Detailed
+                          Private
                         </div>
                       </div>
                       <div className="w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-4 backdrop-blur-sm">
@@ -304,11 +303,8 @@ function PhoneMockup({
                               Dashboard
                             </p>
                             <p className="mt-1 text-sm font-semibold text-[var(--color-text-primary)]">
-                              This month
+                              All Time
                             </p>
-                          </div>
-                          <div className="rounded-full border border-[var(--color-primary)]/25 bg-[var(--color-primary)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)]">
-                            Live
                           </div>
                         </div>
 
@@ -330,16 +326,16 @@ function PhoneMockup({
                           <div className="flex flex-col items-center justify-center rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 py-5 backdrop-blur-sm">
                             <Activity className="mb-2 h-5 w-5 text-[var(--color-primary)]" />
                             <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--color-text-secondary)]">
-                              Streak
+                              Days Since
                             </span>
-                            <span className="mt-2 text-sm font-bold text-[var(--color-text-primary)]">14 Days</span>
+                            <span className="mt-2 text-sm font-bold text-[var(--color-text-primary)]">4 Days</span>
                           </div>
                           <div className="flex flex-col items-center justify-center rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-3 py-5 backdrop-blur-sm">
-                            <BarChart2 className="mb-2 h-5 w-5 text-[var(--color-primary)]" />
+                            <Star className="mb-2 h-5 w-5 text-[var(--color-primary)]" />
                             <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--color-text-secondary)]">
-                              Score
+                              Avg Rating
                             </span>
-                            <span className="mt-2 text-sm font-bold text-[var(--color-text-primary)]">7.6</span>
+                            <span className="mt-2 text-sm font-bold text-[var(--color-text-primary)]">4.2</span>
                           </div>
                         </div>
                       </div>
@@ -347,9 +343,8 @@ function PhoneMockup({
                       <div className="rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-4 backdrop-blur-sm">
                         <div className="mb-3 flex items-center justify-between">
                           <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--color-primary)]">
-                            Momentum
+                            Highlights
                           </span>
-                          <span className="text-xs font-semibold text-[var(--color-text-primary)]">+18%</span>
                         </div>
                         <div className="flex h-14 items-end gap-1.5">
                           {[28, 45, 34, 58, 46, 74, 60, 82].map((height, index) => (
