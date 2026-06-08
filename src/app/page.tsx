@@ -20,7 +20,6 @@ import {
   Lock,
   PieChart,
   Plus,
-  ScanFace,
   Search,
   ShieldCheck,
   Sparkles,
@@ -35,6 +34,7 @@ import {
   useInView,
   useScroll,
   useTransform,
+  useMotionValue,
   MotionValue,
   Variants,
 } from 'framer-motion';
@@ -347,6 +347,100 @@ function TrendChart({ shouldReduceMotion }: { shouldReduceMotion: boolean }) {
   );
 }
 
+/**
+ * Lock-screen padlock for the hero phone. On desktop it's driven by scroll
+ * (`lockProgress` 0→1): the shackle pivots open on its right post, the lock
+ * recolors to the accent and blooms a glow as it "clicks" open. With no
+ * progress (mobile) it sits closed with a gentle pulse; with reduced motion
+ * it renders already-open and still.
+ */
+function Padlock({
+  lockProgress,
+  shouldReduceMotion,
+}: {
+  lockProgress: MotionValue<number> | null;
+  shouldReduceMotion: boolean;
+}) {
+  const fallback = useMotionValue(shouldReduceMotion ? 1 : 0);
+  const progress = lockProgress ?? fallback;
+  const idle = !lockProgress && !shouldReduceMotion;
+  const uid = useId().replace(/:/g, '');
+
+  const shackleRotate = useTransform(progress, [0.08, 0.9], [0, 30]);
+  const shackleLift = useTransform(progress, [0, 0.9], [0, -4]);
+  const primaryOpacity = useTransform(progress, [0.12, 0.72], [0, 1]);
+  const glow = useTransform(progress, [0.25, 0.95], [0, 0.9]);
+  const popScale = useTransform(progress, [0, 0.66, 0.85, 1], [1, 1, 1.06, 1]);
+
+  // Inverted-U shackle; rotates open on its right post (pivot at 74,64).
+  const shackle = 'M46 64 V50 A14 14 0 0 1 74 50 V64';
+
+  return (
+    <div className="mt-1 flex items-center justify-center">
+      <motion.div
+        className="relative flex h-20 w-20 items-center justify-center"
+        style={idle || shouldReduceMotion ? undefined : { scale: popScale }}
+        animate={idle ? { scale: [1, 1.04, 1] } : undefined}
+        transition={idle ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
+      >
+        <motion.div
+          aria-hidden="true"
+          className="absolute h-24 w-24 rounded-full bg-[var(--color-primary)] blur-2xl"
+          style={{ opacity: glow }}
+        />
+        <svg viewBox="0 0 120 134" className="relative h-full w-full" fill="none" aria-hidden="true">
+          <defs>
+            <filter id={`${uid}-shadow`} x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#000000" floodOpacity="0.4" />
+            </filter>
+          </defs>
+
+          {/* Shackle — behind the body, pivots open on the right post */}
+          <motion.g
+            style={{
+              rotate: shackleRotate,
+              y: shackleLift,
+              transformBox: 'view-box',
+              transformOrigin: '74px 64px',
+            }}
+          >
+            {/* Same material as the body: border edge + surface fill */}
+            <path d={shackle} stroke="var(--color-border)" strokeWidth="12" strokeLinecap="round" />
+            <path d={shackle} stroke="var(--color-bg-surface)" strokeWidth="8.5" strokeLinecap="round" />
+          </motion.g>
+
+          {/* Body — solid rounded block with depth */}
+          <g filter={`url(#${uid}-shadow)`}>
+            <rect
+              x="26"
+              y="60"
+              width="68"
+              height="60"
+              rx="20"
+              fill="var(--color-bg-surface)"
+              stroke="var(--color-border)"
+              strokeWidth="2"
+            />
+            {/* top inner highlight */}
+            <rect x="34" y="66" width="52" height="2.5" rx="1.25" fill="#ffffff" fillOpacity="0.14" />
+          </g>
+
+          {/* Keyhole — muted base */}
+          <g>
+            <circle cx="60" cy="84" r="6.5" fill="var(--color-text-secondary)" />
+            <path d="M56.5 88 H63.5 L61.5 102 H58.5 Z" fill="var(--color-text-secondary)" />
+          </g>
+          {/* Keyhole — accent, lights up on unlock */}
+          <motion.g style={{ opacity: primaryOpacity }}>
+            <circle cx="60" cy="84" r="6.5" fill="var(--color-primary)" />
+            <path d="M56.5 88 H63.5 L61.5 102 H58.5 Z" fill="var(--color-primary)" />
+          </motion.g>
+        </svg>
+      </motion.div>
+    </div>
+  );
+}
+
 type PhoneTab = 'dashboard' | 'journal' | 'community' | 'profile';
 
 const phoneTabs: { id: PhoneTab; icon: typeof BarChart3; label: string }[] = [
@@ -358,7 +452,7 @@ const phoneTabs: { id: PhoneTab; icon: typeof BarChart3; label: string }[] = [
 
 function PhoneTabBar({ active }: { active: PhoneTab }) {
   return (
-    <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-[var(--color-border)] bg-[var(--color-bg-default)]/92 px-2 pb-6 pt-2.5 backdrop-blur-xl">
+    <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-[var(--color-border)] bg-[var(--color-bg-default)] px-2 pb-6 pt-2.5">
       {phoneTabs.map((tab) => {
         const on = tab.id === active;
         return (
@@ -412,7 +506,7 @@ function PhoneMockup({
   activeIndex: number;
   direction: number;
   shouldReduceMotion: boolean;
-  unlock?: { scanY: MotionValue<number>; scanOpacity: MotionValue<number> } | null;
+  unlock?: { lockProgress: MotionValue<number> } | null;
 }) {
   const screenTransition = shouldReduceMotion
     ? { duration: 0 }
@@ -438,7 +532,7 @@ function PhoneMockup({
           <div className="pointer-events-none absolute inset-[10px] rounded-[3.15rem] border border-white/[0.05]" />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),transparent_16%,transparent_82%,rgba(255,255,255,0.06))]" />
 
-          <div className="absolute inset-[14px] overflow-hidden rounded-[3rem] bg-[#050607] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
+          <div className="absolute inset-[14px] overflow-hidden rounded-[3rem] bg-[#050607] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] [transform:translateZ(0)]">
             <div className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_34%)]" />
 
             <div className="absolute left-1/2 top-3 z-40 flex h-9 w-36 -translate-x-1/2 items-center justify-center gap-3 rounded-full bg-black/80 ring-1 ring-white/5 shadow-[0_10px_26px_rgba(0,0,0,0.45)]">
@@ -446,7 +540,7 @@ function PhoneMockup({
               <div className="h-3 w-3 rounded-full bg-white/12 shadow-[0_0_10px_rgba(255,255,255,0.05)]" />
             </div>
 
-            <div className="absolute inset-0 bg-[var(--color-bg-default)]">
+            <div className="absolute inset-0 overflow-hidden rounded-[3rem] bg-[var(--color-bg-default)]">
               <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-20 bg-gradient-to-b from-black/16 to-transparent" />
 
               <AnimatePresence mode="wait" initial={false}>
@@ -487,24 +581,10 @@ function PhoneMockup({
                           Intimacy Journal
                         </p>
                       </div>
-                      <motion.div
-                        animate={
-                          shouldReduceMotion
-                            ? { opacity: 1 }
-                            : { scale: [1, 1.05, 1], opacity: [0.7, 1, 0.7] }
-                        }
-                        transition={
-                          shouldReduceMotion
-                            ? { duration: 0 }
-                            : { duration: 2.6, repeat: Infinity, ease: 'easeInOut' }
-                        }
-                        className="mt-2 flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border border-[var(--color-primary)]/60"
-                      >
-                        <ScanFace className="h-8 w-8 text-[var(--color-primary)]" strokeWidth={1.5} />
-                      </motion.div>
-                      <p className="font-body text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
-                        Unlock with Face ID
-                      </p>
+                      <Padlock
+                        lockProgress={unlock?.lockProgress ?? null}
+                        shouldReduceMotion={shouldReduceMotion}
+                      />
                     </div>
                   )}
 
@@ -688,17 +768,6 @@ function PhoneMockup({
                 </motion.div>
               </AnimatePresence>
 
-              {/* Scroll-linked Face ID scan sweep — "unlocks" the app entering the walkthrough */}
-              {activeIndex === 0 && unlock && (
-                <motion.div
-                  aria-hidden="true"
-                  style={{ y: unlock.scanY, opacity: unlock.scanOpacity }}
-                  className="pointer-events-none absolute inset-x-3 top-0 z-30 h-px bg-[var(--color-primary)] shadow-[0_0_16px_3px_var(--color-primary)]"
-                >
-                  <div className="absolute inset-x-0 -top-16 h-32 bg-[linear-gradient(to_bottom,transparent,var(--hero-glow),transparent)]" />
-                </motion.div>
-              )}
-
               {activeIndex !== 0 && <PhoneTabBar active={tabForIndex[activeIndex]} />}
 
               <div className="absolute bottom-2 left-1/2 z-40 h-1.5 w-28 -translate-x-1/2 rounded-full bg-[var(--color-text-secondary)]/40" />
@@ -779,8 +848,8 @@ export default function Home() {
     offset: ['start start', 'end end'],
   });
   const phoneScale = useTransform(scrollYProgress, [0, 0.12], [1.02, 0.95]);
-  const scanY = useTransform(scrollYProgress, [0, 0.1], [30, 540]);
-  const scanOpacity = useTransform(scrollYProgress, [0, 0.02, 0.085, 0.12], [0, 1, 1, 0]);
+  // Drives the lock-screen padlock from closed (0) to open (1) over the first scroll.
+  const lockProgress = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
   const glowOpacity = useTransform(scrollYProgress, [0, 0.12], [0.18, 0.45]);
 
   const updateActiveFeature = useEffectEvent(() => {
@@ -974,7 +1043,7 @@ export default function Home() {
                       activeIndex={activeFeature}
                       direction={direction}
                       shouldReduceMotion={shouldReduceMotion}
-                      unlock={shouldReduceMotion ? null : { scanY, scanOpacity }}
+                      unlock={shouldReduceMotion ? null : { lockProgress }}
                     />
                   </div>
                 </motion.div>

@@ -1,17 +1,37 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useId, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Mail, X } from 'lucide-react';
 
 /**
- * COUNT is pre-launch. Until the real store listings exist, both badges route
- * to the launch-updates email capture. Swap these two values for the real
- * App Store / Google Play URLs at launch — nothing else needs to change.
+ * Single source of truth for the store badges. Each platform tracks its own
+ * availability: when `available` is true the badge opens a download dialog that
+ * links to the live store listing (and, for the App Store, shows a QR to scan
+ * from a computer); otherwise it opens a "coming soon" dialog that routes to the
+ * launch-updates email capture. Flip `available` and swap `href` per platform as
+ * each launches.
+ *
+ * The App Store URL intentionally omits a country code (e.g. no `/il/`) so the
+ * link geo-redirects each visitor to their own local storefront. The same link
+ * resolves on iPhone, iPad, Mac (Apple Silicon) and Apple Vision.
  */
 export const STORE_LINKS = {
-  appStore: 'mailto:support@countintimacyjournal.com?subject=COUNT%20iOS%20Launch%20Updates',
-  googlePlay: 'mailto:support@countintimacyjournal.com?subject=COUNT%20Android%20Launch%20Updates',
-  available: false,
+  appStore: {
+    href: 'https://apps.apple.com/app/id6759260989',
+    available: true,
+  },
+  googlePlay: {
+    href: 'mailto:support@countintimacyjournal.com?subject=COUNT%20Android%20Launch%20Updates',
+    available: false,
+  },
 } as const;
+
+/** Static QR encoding STORE_LINKS.appStore.href — regenerate if that URL changes. */
+const APP_STORE_QR = '/appstore-qr.svg';
+
+type StoreKey = keyof typeof STORE_LINKS;
 
 function AppleGlyph({ className }: { className?: string }) {
   return (
@@ -34,16 +54,20 @@ function GooglePlayGlyph({ className }: { className?: string }) {
 
 function Badge({
   href,
+  external,
   ariaLabel,
   eyebrow,
   label,
   glyph,
+  onOpen,
 }: {
   href: string;
+  external: boolean;
   ariaLabel: string;
   eyebrow: string;
   label: string;
   glyph: React.ReactNode;
+  onOpen: () => void;
 }) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -51,6 +75,15 @@ function Badge({
     <motion.a
       href={href}
       aria-label={ariaLabel}
+      aria-haspopup="dialog"
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      // Left-click opens the dialog; middle/right-click still use the href as a fallback.
+      onClick={(event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+        event.preventDefault();
+        onOpen();
+      }}
       whileHover={shouldReduceMotion ? undefined : { y: -2 }}
       whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
       className="group inline-flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-5 py-3 backdrop-blur-xl transition-colors hover:border-[var(--color-primary)]/40"
@@ -70,26 +103,170 @@ function Badge({
   );
 }
 
+function StoreDialog({ store, onClose }: { store: StoreKey; onClose: () => void }) {
+  const shouldReduceMotion = useReducedMotion();
+  const titleId = useId();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const isAppStore = store === 'appStore';
+
+  // Lock scroll, restore focus to the trigger, close on Escape.
+  useEffect(() => {
+    const trigger = document.activeElement as HTMLElement | null;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = overflow;
+      trigger?.focus?.();
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <motion.div
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+    >
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute inset-0 cursor-default bg-black/60 backdrop-blur-sm"
+      />
+
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.97 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-sm overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg-default)] p-7 text-center shadow-2xl"
+      >
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-surface)] hover:text-[var(--color-text-primary)]"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <span className="flex h-12 w-12 mx-auto items-center justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)]">
+          {isAppStore ? <AppleGlyph className="h-5 w-5" /> : <GooglePlayGlyph className="h-5 w-5" />}
+        </span>
+
+        {isAppStore ? (
+          <>
+            <h3 id={titleId} className="mt-5 font-heading text-2xl font-bold text-[var(--color-text-primary)]">
+              Download COUNT
+            </h3>
+            <p className="mt-2 font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
+              Free on iPhone, iPad, Mac &amp; Apple Vision.
+            </p>
+
+            <a
+              href={STORE_LINKS.appStore.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--color-primary)] px-5 py-3.5 font-heading text-base font-bold text-[var(--color-bg-default)] transition-opacity hover:opacity-90"
+            >
+              Open in the App Store
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+
+            <div className="my-5 flex items-center gap-3">
+              <span className="h-px flex-1 bg-[var(--color-border)]" />
+              <span className="font-body text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                On a computer?
+              </span>
+              <span className="h-px flex-1 bg-[var(--color-border)]" />
+            </div>
+
+            <div className="mx-auto w-fit rounded-2xl bg-white p-3 shadow-md">
+              {/* eslint-disable-next-line @next/next/no-img-element -- static, theme-independent QR */}
+              <img src={APP_STORE_QR} alt="QR code linking to COUNT on the App Store" className="h-36 w-36" />
+            </div>
+            <p className="mt-3 font-body text-xs leading-relaxed text-[var(--color-text-secondary)]">
+              Scan with your iPhone camera to download.
+            </p>
+          </>
+        ) : (
+          <>
+            <h3 id={titleId} className="mt-5 font-heading text-2xl font-bold text-[var(--color-text-primary)]">
+              Coming soon to Google Play
+            </h3>
+            <p className="mt-2 font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
+              COUNT is landing on Android soon. Leave your email and we&apos;ll tell you the moment it&apos;s live.
+            </p>
+
+            <a
+              href={STORE_LINKS.googlePlay.href}
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--color-primary)] px-5 py-3.5 font-heading text-base font-bold text-[var(--color-bg-default)] transition-opacity hover:opacity-90"
+            >
+              <Mail className="h-4 w-4" />
+              Get launch updates
+            </a>
+            <p className="mt-3 font-body text-xs leading-relaxed text-[var(--color-text-secondary)]">
+              Already on iPhone, iPad &amp; Mac via the App Store.
+            </p>
+          </>
+        )}
+      </motion.div>
+    </motion.div>,
+    document.body,
+  );
+}
+
 export function StoreBadges({ className = '' }: { className?: string }) {
-  const eyebrow = STORE_LINKS.available ? 'Download on the' : 'Coming soon to';
-  const eyebrowGoogle = STORE_LINKS.available ? 'Get it on' : 'Coming soon to';
+  const { appStore, googlePlay } = STORE_LINKS;
+  const [openStore, setOpenStore] = useState<StoreKey | null>(null);
 
   return (
-    <div className={`flex flex-col gap-3 sm:flex-row ${className}`}>
-      <Badge
-        href={STORE_LINKS.appStore}
-        ariaLabel="COUNT — coming soon to the App Store. Get launch updates."
-        eyebrow={eyebrow}
-        label="App Store"
-        glyph={<AppleGlyph className="h-5 w-5" />}
-      />
-      <Badge
-        href={STORE_LINKS.googlePlay}
-        ariaLabel="COUNT — coming soon to Google Play. Get launch updates."
-        eyebrow={eyebrowGoogle}
-        label="Google Play"
-        glyph={<GooglePlayGlyph className="h-5 w-5" />}
-      />
-    </div>
+    <>
+      <div className={`flex flex-col gap-3 sm:flex-row ${className}`}>
+        <Badge
+          href={appStore.href}
+          external={appStore.available}
+          ariaLabel={
+            appStore.available
+              ? 'Download COUNT on the App Store'
+              : 'COUNT — coming soon to the App Store. Get launch updates.'
+          }
+          eyebrow={appStore.available ? 'Download on the' : 'Coming soon to'}
+          label="App Store"
+          glyph={<AppleGlyph className="h-5 w-5" />}
+          onOpen={() => setOpenStore('appStore')}
+        />
+        <Badge
+          href={googlePlay.href}
+          external={googlePlay.available}
+          ariaLabel={
+            googlePlay.available
+              ? 'Get COUNT on Google Play'
+              : 'COUNT — coming soon to Google Play. Get launch updates.'
+          }
+          eyebrow={googlePlay.available ? 'Get it on' : 'Coming soon to'}
+          label="Google Play"
+          glyph={<GooglePlayGlyph className="h-5 w-5" />}
+          onOpen={() => setOpenStore('googlePlay')}
+        />
+      </div>
+
+      <AnimatePresence>
+        {openStore && <StoreDialog store={openStore} onClose={() => setOpenStore(null)} />}
+      </AnimatePresence>
+    </>
   );
 }
