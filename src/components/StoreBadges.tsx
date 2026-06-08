@@ -86,9 +86,9 @@ function Badge({
       }}
       whileHover={shouldReduceMotion ? undefined : { y: -2 }}
       whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-      className="group inline-flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-5 py-3 backdrop-blur-xl transition-colors hover:border-[var(--color-primary)]/40"
+      className="group inline-flex min-h-[3.25rem] w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-5 py-3 backdrop-blur-xl transition-colors hover:border-[var(--color-primary)]/40 sm:w-auto sm:justify-start"
     >
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center text-[var(--color-text-primary)]">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center text-[var(--color-text-primary)]">
         {glyph}
       </span>
       <span className="flex flex-col text-left leading-none">
@@ -235,7 +235,7 @@ export function StoreBadges({ className = '' }: { className?: string }) {
 
   return (
     <>
-      <div className={`flex flex-col gap-3 sm:flex-row ${className}`}>
+      <div className={`flex w-full flex-col gap-3 sm:w-auto sm:flex-row ${className}`}>
         <Badge
           href={appStore.href}
           external={appStore.available}
@@ -246,7 +246,7 @@ export function StoreBadges({ className = '' }: { className?: string }) {
           }
           eyebrow={appStore.available ? 'Download on the' : 'Coming soon to'}
           label="App Store"
-          glyph={<AppleGlyph className="h-5 w-5" />}
+          glyph={<AppleGlyph className="h-7 w-7" />}
           onOpen={() => setOpenStore('appStore')}
         />
         <Badge
@@ -259,7 +259,7 @@ export function StoreBadges({ className = '' }: { className?: string }) {
           }
           eyebrow={googlePlay.available ? 'Get it on' : 'Coming soon to'}
           label="Google Play"
-          glyph={<GooglePlayGlyph className="h-5 w-5" />}
+          glyph={<GooglePlayGlyph className="h-7 w-7" />}
           onOpen={() => setOpenStore('googlePlay')}
         />
       </div>
