@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { WebsiteCode } from './WebsiteCode';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Mail, X } from 'lucide-react';
 
@@ -13,13 +14,12 @@ import { ArrowUpRight, Mail, X } from 'lucide-react';
  * launch-updates email capture. Flip `available` and swap `href` per platform as
  * each launches.
  *
- * The App Store URL intentionally omits a country code (e.g. no `/il/`) so the
- * link geo-redirects each visitor to their own local storefront. The same link
- * resolves on iPhone, iPad, Mac (Apple Silicon) and Apple Vision.
+ * The App Store CTA uses the locked Exp1 listing. The existing QR resolves
+ * to the same app using its country-neutral listing URL.
  */
 export const STORE_LINKS = {
   appStore: {
-    href: 'https://apps.apple.com/app/id6759260989',
+    href: 'https://apps.apple.com/us/app/count-personal-journal/id6759260989',
     available: true,
   },
   googlePlay: {
@@ -28,7 +28,7 @@ export const STORE_LINKS = {
   },
 } as const;
 
-/** Static QR encoding STORE_LINKS.appStore.href — regenerate if that URL changes. */
+/** Existing QR encodes https://apps.apple.com/app/id6759260989 (the same app). */
 const APP_STORE_QR = '/appstore-qr.svg';
 
 type StoreKey = keyof typeof STORE_LINKS;
@@ -175,6 +175,8 @@ function StoreDialog({ store, onClose }: { store: StoreKey; onClose: () => void 
             <p className="mt-2 font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
               Free on iPhone, iPad, Mac &amp; Apple Vision.
             </p>
+
+            <WebsiteCode />
 
             <a
               href={STORE_LINKS.appStore.href}

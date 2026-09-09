@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Playfair_Display, Source_Serif_4, Montserrat } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
@@ -55,6 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Script src="/count-first-touch.js" strategy="beforeInteractive" />
       <body
         className={`${playfair.variable} ${sourceSerif.variable} ${montserrat.variable} antialiased bg-[var(--color-bg-default)] text-[var(--color-text-primary)] transition-colors duration-300 min-h-screen`}
       >
